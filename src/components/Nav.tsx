@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchWeather } from "../store/actions/actions";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/reducers";
+import { useDispatch } from "react-redux";
+import { WeatherActionTypes } from "../types/types";
 
 export default function Nav() {
-    const [city, setCity] = useState<string | null>("");
+    const [city, setCity] = useState<string>("");
     const dispatch = useDispatch();
-
-    const weather = useSelector((state: RootState) => state.weather);
 
     const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCity(e.target.value);
     };
-    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (city?.trim() == "") {
             alert("Please enter a city name.");
+        } else {
+            dispatch(fetchWeather(city) as unknown as WeatherActionTypes);
         }
-        dispatch(fetchWeather(city));
     };
     return (
         <>

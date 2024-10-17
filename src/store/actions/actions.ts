@@ -36,7 +36,7 @@ export const fetchWeather = (city: string) => {
                 type: FETCH_WEATHER_SUCCESS,
                 payload: constructWeatherPayload(data),
             });
-        } catch (error) {
+        } catch (error: any) {
             dispatch({
                 type: FETCH_WEATHER_FAILURE,
                 payload: error.message,
@@ -63,7 +63,7 @@ export const fetchWeatherByCoords = (latitude: number, longitude: number) => {
                 type: FETCH_WEATHER_SUCCESS,
                 payload: constructWeatherPayload(data),
             });
-        } catch (error) {
+        } catch (error: any) {
             dispatch({
                 type: FETCH_WEATHER_FAILURE,
                 payload: error.message,
