@@ -1,4 +1,4 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite [![Netlify Status](https://api.netlify.com/api/v1/badges/35951707-e769-42a6-9d5a-be6ecd2b1ea1/deploy-status)](https://app.netlify.com/sites/weather-v2-didar/deploys)Ï
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
