@@ -1,6 +1,12 @@
-import rootReducer from "./reducers";
 import { configureStore } from "@reduxjs/toolkit";
+import weatherReducer from "./slices/weatherSlice";
 
-const store = configureStore({ reducer: rootReducer });
+export const store = configureStore({
+    reducer: {
+        weather: weatherReducer,
+    },
+});
 
-export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type AppStore = typeof store;
