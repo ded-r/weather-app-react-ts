@@ -22,7 +22,7 @@ export const fetchWeatherByCity = createAsyncThunk("weather/fetchWeatherByCity",
     return data;
 });
 
-export const fetchWeatherByCoords = createAsyncThunk("weather/fetchWeatherByCoords", async ({ latitude, longitude }: { latitude: number; longitude: number }, thunkAPI) => {
+export const fetchWeatherByCoords = createAsyncThunk("weather/fetchWeatherByCoords", async ({ latitude, longitude }: { latitude: number; longitude: number }) => {
     const response = await fetch(`${BASE_URL}?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
     if (!response.ok) {
         throw new Error("Failed to fetch weather data");
