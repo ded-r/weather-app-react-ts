@@ -1,28 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faLocationArrow, faMagnifyingGlass, faUser, faUserPlus, faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch } from "../hooks/hooks";
 import { fetchWeatherByCity, fetchWeatherByCoords } from "../store/slices/weatherSlice";
 
 export default function Nav() {
     const [city, setCity] = useState<string>("");
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const [isOpen, setIsOpen] = useState(false);
-
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
+    const toggleDropdown = () => setIsOpen(!isOpen);
 
     const handleClickOutside = (event: MouseEvent) => {
-        if (dropdownRef.current && (dropdownRef.current as HTMLElement).contains(event.target as Node)) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
             setIsOpen(false);
         }
     };
@@ -35,15 +26,13 @@ export default function Nav() {
     }, []);
 
     const dispatch = useAppDispatch();
-
     const location = useLocation();
 
-    const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCity(e.target.value);
-    };
+    const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => setCity(e.target.value);
+
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (city?.trim() == "") {
+        if (city.trim() === "") {
             alert("Please enter a city name.");
         } else {
             dispatch(fetchWeatherByCity(city));
@@ -73,10 +62,9 @@ export default function Nav() {
                     <Link to="/" className="text-xl">
                         <b>Aua Raiy</b>
                     </Link>
-
                     <ul className="space-x-5 items-center hidden md:flex lg:flex">
                         {location.pathname === "/" && (
-                            <div className="flex space-x-4 justify-center items-center ">
+                            <div className="flex space-x-4 justify-center items-center">
                                 <li>
                                     <div className="relative">
                                         <form onSubmit={handleFormSubmit}>
@@ -94,7 +82,6 @@ export default function Nav() {
                                 </li>
                             </div>
                         )}
-
                         <li>
                             <Link to="/">Basty Bet</Link>
                         </li>
@@ -115,34 +102,41 @@ export default function Nav() {
                             </Link>
                         </li>
                     </ul>
+
                     <div className="flex md:hidden lg:hidden" ref={dropdownRef}>
-                        <button className="flex" type="button" id="options-menu" aria-expanded="true" aria-haspopup="true" onClick={toggleDropdown}>
+                        <button className="flex" type="button" onClick={toggleDropdown}>
                             {isOpen ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faBars} />}
                         </button>
                         {isOpen && (
                             <div className="origin-top-right z-10 absolute right-0 mt-5 w-28 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5">
-                                <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                <div className="py-1" role="menu" aria-orientation="vertical">
                                     <ul className="px-4 py-2 text-sm">
                                         <li>
-                                            <Link to="/">Basty Bet</Link>
+                                            <Link to="/" onClick={() => setIsOpen(false)}>
+                                                Basty Bet
+                                            </Link>
                                         </li>
                                         <hr />
                                         <li>
-                                            <Link to="/about">Bız</Link>
+                                            <Link to="/about" onClick={() => setIsOpen(false)}>
+                                                Bız
+                                            </Link>
                                         </li>
                                         <hr />
                                         <li>
-                                            <Link to="/contact">Kerı bailanys</Link>
+                                            <Link to="/contact" onClick={() => setIsOpen(false)}>
+                                                Kerı bailanys
+                                            </Link>
                                         </li>
                                         <hr />
                                         <li>
-                                            <Link to="/login">
+                                            <Link to="/login" onClick={() => setIsOpen(false)}>
                                                 Kıru <FontAwesomeIcon icon={faUser} />
                                             </Link>
                                         </li>
                                         <hr />
                                         <li>
-                                            <Link to="/reg">
+                                            <Link to="/reg" onClick={() => setIsOpen(false)}>
                                                 Tırkelu <FontAwesomeIcon icon={faUserPlus} />
                                             </Link>
                                         </li>
@@ -153,29 +147,6 @@ export default function Nav() {
                     </div>
                 </div>
             </nav>
-            <div className="mt-3 md:hidden lg:hidden">
-                <ul>
-                    {location.pathname === "/" && (
-                        <div className="flex space-x-4">
-                            <li>
-                                <div className="relative">
-                                    <form onSubmit={handleFormSubmit}>
-                                        <div className="relative">
-                                            <input type="text" placeholder="Type city..." onChange={handleCityChange} className="border border-black rounded-lg px-3 pl-10" />
-                                            <button type="submit">
-                                                <FontAwesomeIcon icon={faMagnifyingGlass} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-                            <li className="cursor-pointer">
-                                <FontAwesomeIcon icon={faLocationArrow} onClick={handleLocationClick} />
-                            </li>
-                        </div>
-                    )}
-                </ul>
-            </div>
         </>
     );
 }
