@@ -43,13 +43,13 @@ const Content: React.FC = () => {
                 <div>
                     <div className="flex rounded-xl mx-9 my-5 p-5 bg-white shadow-2xl">
                         <div className="w-1/2 flex justify-end">
-                            <div className="border border-black rounded-lg w-1/2 p-3 text-center">
+                            <div className="border border-black rounded-lg md:w-1/2 lg:w-1/2 p-3 text-center">
                                 <b>
                                     {data.name}, {data.sys.country}
                                 </b>
                                 <div className="flex items-center justify-center">
-                                    <p className="text-3xl">{Math.round(data.main.temp)}°C</p>
-                                    <img className="w-20 h-20" src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`} alt="weather-icon" />
+                                    <p className="text-xl md:text-2xl lg:text-3xl">{Math.round(data.main.temp)}°C</p>
+                                    <img className="w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20" src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`} alt="weather-icon" />
                                 </div>
                                 <b className="text-xl">{data.weather[0].main}</b>
                                 <p>{data.weather[0].description}</p>
